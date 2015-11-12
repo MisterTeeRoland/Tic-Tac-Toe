@@ -1,0 +1,161 @@
+/*
+
+	Style sheet for the JavaScript Tic-Tac-Toe Game
+
+	Author: Tyler Roland
+	Date: 	10/22/2015;
+
+*/
+
+
+
+body
+{
+	background: black url(heat.jpg) no-repeat center center fixed;
+	background-size: cover;
+}
+
+#page
+{
+	width: 940px;
+	margin: auto;
+}
+
+header
+{
+	color: white;
+	text-align: center;
+	padding-top: 40px;
+	border-bottom: 1px solid white;
+}
+
+section
+{
+	text-align: center;
+	padding-top: 20px;
+	padding-bottom: 20px;
+
+	margin: auto; 
+}
+
+#wrap
+{
+	height: 380px;
+	margin-right: 70px;
+	margin-left: 70px;
+}
+
+#howTo
+{
+	color: white;
+	width: 380px;
+	height: 380px;
+	display: inline-table;
+	float: left;
+	text-align: center;
+	padding-top: 100px;
+}
+
+#controls
+{
+	width: 200px;
+	height: 380px;
+	display: inline-block;
+	float: left;
+	padding-top: 100px;
+}
+
+#controls legend
+{
+	color: white;
+}
+
+#controls fieldset
+{
+	padding-bottom: 30px;
+}
+
+.click a
+{
+	display: block;
+}
+
+#game
+{
+	width: 380px;
+	height: 380px;
+	padding: 10px;
+	float: left;
+	color: white;
+	margin-left: 10px;
+}
+
+#game table
+{
+	height: 360px;
+	float: left;
+}
+
+/* Scoreboard styles */
+
+#scoreboard
+{
+	height: 360px;
+	width: 200px;
+	float: left;
+	margin-left: 10px;
+	color: white;
+}
+
+#scoreboard legend
+{
+	font-size: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	color: white;
+}
+
+#scoreList
+{
+	border: 1px solid white;
+	height: 300px;
+}
+
+#scoreboard li
+{
+	text-align: left;
+	padding-left: 10px;
+	padding-bottom: 10px;
+	text-decoration: none;
+	list-style: none;
+}
+
+/* Game caption styles */
+
+#capt
+{
+	color: white;
+	text-align: center;
+}
+
+#capt a:link
+{
+	text-decoration: underline;
+}
+
+#capt a:hover
+{
+	background: rgba(0,0,0,1);
+}
+
+
+/* Footer Styles */
+
+footer
+{
+	color: white;
+	font-size: 16px;
+	text-align: center;
+	border-top: 1px solid white;
+	padding-top: 5px;
+}

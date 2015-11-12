@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="stylesheet" type="text/css" href="game.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<script type="text/javascript" src="game.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<title>Tyler Roland | Tic-Tac-Toe</title>
+	</head>
+
+	<body>
+
+		<!-- Navigation bar -->
+
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+  			<div class="container-fluid">
+    			<div class="navbar-header">
+      				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				        <span class="sr-only">Toggle navigation</span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+      				</button>
+      				<a class="navbar-brand" href="http://tylerroland.x10host.com/index.htm">Tyler Roland</a>
+   				</div>
+  			</div>
+		</nav>
+
+		<div id="page">
+			<header>
+				<h1>Tic-Tac-Toe</h1>
+				<h4><I>Simple. Elegant.</I></h4>
+			</header>
+
+			<section>
+				<div id="wrap">
+
+					<div id="controls">
+						<fieldset id="playerName">
+							<legend>Your Name</legend>
+							<input type="text" id="name" value="" style="color: black;" />
+							<input id="submit" type="button" onclick="setName()" value="Submit" style="color:black;"/> 
+						</fieldset>
+						<fieldset id="letter">
+							<legend>Character</legend>
+							<div class="btn-group" role="group">
+									<button type="button" class="btn btn-default" onclick="setLetter('x')">X</button>
+									<button type="button" class="btn btn-default" onclick="setLetter('o')">O</button>
+							</div>
+						</fieldset>
+						<fieldset id="diff">
+							<legend>Difficulty</legend>
+							<div class="btn-group" role="group">
+									<button type="button" class="btn btn-default" onclick="setDiff('easy')">Easy</button>
+									<button type="button" class="btn btn-default" onclick="setDiff('hard')">Hard</button>
+							</div>
+						</fieldset>
+						<fieldset id="play">
+							<legend>Play Game</legend>
+							<div class="btn-group" role="group">
+								<button id="start" type="button" class="btn btn-default" onclick="startGame()">Start!</button>
+								<button id="newGame" type="button" class="btn btn-default" onclick="newGame()">New Game</button>
+							</div>
+						</fieldset>
+					</div>
+
+					<div id="howTo">
+						<h1>How To Play</h1>
+						<p>Select X or O.<br>Select difficulty.<br>Click squares.<br>Win.</p>
+					</div>
+
+					<div id="game">
+						<table id="board" BORDER="1">
+
+							<col width="120" />
+							<col width="120" />
+							<col width="120" />
+
+							<tr height="120px">
+								<td id="0" class="click" style="cursor: pointer;" onclick="addImage(0)"></td>
+								<td id="1" class="click" style="cursor: pointer;" onclick="addImage(1)"></td>
+								<td id="2" class="click" style="cursor: pointer;" onclick="addImage(2)"></td>
+							</tr>
+
+							<tr height="120px">
+								<td id="3" class="click" style="cursor: pointer;" onclick="addImage(3)"></td>
+								<td id="4" class="click" style="cursor: pointer;" onclick="addImage(4)"></td>
+								<td id="5" class="click" style="cursor: pointer;" onclick="addImage(5)"></td>
+							</tr>
+
+							<tr height="120px">
+								<td id="6" class="click" style="cursor: pointer;" onclick="addImage(6)"></td>
+								<td id="7" class="click" style="cursor: pointer;" onclick="addImage(7)"></td>
+								<td id="8" class="click" style="cursor: pointer;" onclick="addImage(8)"></td>
+							</tr>
+
+						</table>
+					</div>
+
+					<div id="scoreboard">
+						<legend>Scoreboard</legend>
+						<div id="scoreList">
+							<ul></ul>
+						</div>
+					</div>
+
+				</div>
+			</section>
+
+			<p id='capt'><I>Did you find any <a href="mailto:tyler.roland92@yahoo.com?subject=Found%20A%20Problem%20(Tic-Tac-Toe)" style="color: white;">problems</a> with or have any <a href="mailto:tyler.roland92@yahoo.com?subject=I've%20Got%20A%20Suggestion!%20(Tic-Tac-Toe)" style="color: white;">suggestions</a> for the game? Please let me know!</I></p>
+
+			<footer>
+				<p>
+					&copy; Copyright Tyler Roland 2015. All rights reserved.
+				</p>
+			</footer>
+		</div>
+	</body>
+
+</html>
