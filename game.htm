@@ -1,122 +1,119 @@
 <!DOCTYPE html>
 <html>
-	
 	<head>
 		<meta charset="UTF-8" />
-		<link rel="stylesheet" type="text/css" href="game.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-		<script type="text/javascript" src="game.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<title>Tyler Roland | Tic-Tac-Toe</title>
+		<style>
+		<!--
+			body {background-color: #494949; font-family: Josefin Sans, sans-serif; color: white; width: 100%; margin: auto;}
+			header{color: white; text-align: center; padding: 100px 0; background-color: #4070b8}
+			section{text-align: center; padding-top: 20px; padding-bottom: 20px; margin: auto;}
+			h1 {font-size: 5em; padding: 0; margin: 0;}
+			h2 {font-size: 3em; padding: 0; margin: 0;}
+			h4 {font-size: 2em; padding: 0; margin: 0;}
+			#gamespace {padding: 150px 0; margin: 0; background-color: #ef7581;}
+			#result {text-align: center; font-size: 3.5vw; padding: 20px 0;}
+			.controls {text-align: center; margin: 40px auto 0; min-height: 50px;}
+			#play, #play2 {text-align: center; margin: auto;}
+			input[type=text] {border:0; height: 30px; border-radius: 10px; font-size: 20px; padding-left: 10px;}
+			td {width: 120px; height: 120px; cursor: pointer;}
+			tr:first-child td:first-child {border-radius: 10px 0 0 0;}
+			tr:first-child td:last-child {border-radius: 0 10px 0 0;}
+			tr:last-child td:first-child {border-radius: 0 0 0 10px;}
+			tr:last-child td:last-child {border-radius: 0 0 10px 0;}
+			.even {background-color: #494949;}
+			.odd {background-color: black;}
+			table {border-collapse: collapse; margin: auto;}
+			.click a {display: block;}
+			button {border:0; height: 30px; min-width: 50px; border-radius: 5px; padding: 5px; background-color: #e1e1e1; color: #494949;}
+			#scoreboard {height: 360px; width: 200px;}
+			#scoreList {border: 1px solid white; border-radius: 10px; height: 300px;}
+			#scoreboard li {text-align: left; padding-left: 10px; padding-bottom: 10px; text-decoration: none;list-style: none;}
+			#capt {text-align: center; background-color: white; color: #494949; margin: 0; padding: 25px 0;}
+			#capt p {max-width: 70%; margin: auto; font-size: 1.5vw;}
+			#capt a:link, #capt a:visited{text-decoration: underline; color: #ef7581;}
+			#capt a:hover{color: black;}
+			footer p {font-size: 1em; text-align: center; font-size: 1vw;}
+			footer {color: white; background-color: #494949; padding: 15px 0;}
+		-->
+		</style>
+		<script src='game.js'></script>
+		<link href='https://fonts.googleapis.com/css?family=Josefin+Sans:600' rel='stylesheet' type='text/css'>
 	</head>
 
 	<body>
+		<header>
+			<h1>Tic-Tac-Toe</h1>
+			<h4><i>Simple. Elegant.</i></h4>
+		</header>
 
-		<!-- Navigation bar -->
+		<div id='gamespace'>
+			<div><h2 id='result'></h2></div>
 
-		<nav class="navbar navbar-inverse navbar-fixed-top">
-  			<div class="container-fluid">
-    			<div class="navbar-header">
-      				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-				        <span class="sr-only">Toggle navigation</span>
-				        <span class="icon-bar"></span>
-				        <span class="icon-bar"></span>
-				        <span class="icon-bar"></span>
-      				</button>
-      				<a class="navbar-brand" href="http://tylerroland.x10host.com/index.htm">Tyler Roland</a>
-   				</div>
-  			</div>
-		</nav>
+			<div id='howtoplay' class='controls'>
+				<h2><u>How To Play</u></h2>
+				<p>Select X or O.<br>Select difficulty.<br>Select squares.<br>Win.</p><br><br>
+			</div>
 
-		<div id="page">
-			<header>
-				<h1>Tic-Tac-Toe</h1>
-				<h4><I>Simple. Elegant.</I></h4>
-			</header>
+			<div id='yourname' class='controls'>
+				<input type='text' id='name' placeholder='Your Name'>
+				<button onclick='setName()'>Submit</button>
+			</div>
 
-			<section>
-				<div id="wrap">
+			<div id='letter' class='controls'>
+				Your Character<br>
+				<button onclick='setLetter("x")'>X</button>
+				<button onclick='setLetter("o")'>O</button>
+			</div>
 
-					<div id="controls">
-						<fieldset id="playerName">
-							<legend>Your Name</legend>
-							<input type="text" id="name" value="" style="color: black;" />
-							<input id="submit" type="button" onclick="setName()" value="Submit" style="color:black;"/> 
-						</fieldset>
-						<fieldset id="letter">
-							<legend>Character</legend>
-							<div class="btn-group" role="group">
-									<button type="button" class="btn btn-default" onclick="setLetter('x')">X</button>
-									<button type="button" class="btn btn-default" onclick="setLetter('o')">O</button>
-							</div>
-						</fieldset>
-						<fieldset id="diff">
-							<legend>Difficulty</legend>
-							<div class="btn-group" role="group">
-									<button type="button" class="btn btn-default" onclick="setDiff('easy')">Easy</button>
-									<button type="button" class="btn btn-default" onclick="setDiff('hard')">Hard</button>
-							</div>
-						</fieldset>
-						<fieldset id="play">
-							<legend>Play Game</legend>
-							<div class="btn-group" role="group">
-								<button id="start" type="button" class="btn btn-default" onclick="startGame()">Start!</button>
-								<button id="newGame" type="button" class="btn btn-default" onclick="newGame()">New Game</button>
-							</div>
-						</fieldset>
-					</div>
+			<div id='diff' class='controls'>
+				Difficulty<br>
+				<button onclick='setDiff("easy")'>Easy</button>
+				<button onclick='setDiff("hard")'>Hard</button>
+			</div>
 
-					<div id="howTo">
-						<h1>How To Play</h1>
-						<p>Select X or O.<br>Select difficulty.<br>Click squares.<br>Win.</p>
-					</div>
+			<div id='play'>
+				<button id='start' onclick='startGame()'>Start Game!</button>
+			</div>
 
-					<div id="game">
-						<table id="board" BORDER="1">
+			<div id='play2'>
+				<button id='new' onclick='newGame()'>New Game</button>
+			</div>
 
-							<col width="120" />
-							<col width="120" />
-							<col width="120" />
+			<div id="game" class='controls'>
+				<table id="board">
+					<tr>
+						<td id="0" class="click even" onclick="addImage(0)"></td>
+						<td id="1" class="click odd" onclick="addImage(1)"></td>
+						<td id="2" class="click even" onclick="addImage(2)"></td>
+					</tr>
+					<tr>
+						<td id="3" class="click odd" onclick="addImage(3)"></td>
+						<td id="4" class="click even" onclick="addImage(4)"></td>
+						<td id="5" class="click odd" onclick="addImage(5)"></td>
+					</tr>
+					<tr>
+						<td id="6" class="click even" onclick="addImage(6)"></td>
+						<td id="7" class="click odd" onclick="addImage(7)"></td>
+						<td id="8" class="click even" onclick="addImage(8)"></td>
+					</tr>
+				</table>
+			</div>
 
-							<tr height="120px">
-								<td id="0" class="click" style="cursor: pointer;" onclick="addImage(0)"></td>
-								<td id="1" class="click" style="cursor: pointer;" onclick="addImage(1)"></td>
-								<td id="2" class="click" style="cursor: pointer;" onclick="addImage(2)"></td>
-							</tr>
-
-							<tr height="120px">
-								<td id="3" class="click" style="cursor: pointer;" onclick="addImage(3)"></td>
-								<td id="4" class="click" style="cursor: pointer;" onclick="addImage(4)"></td>
-								<td id="5" class="click" style="cursor: pointer;" onclick="addImage(5)"></td>
-							</tr>
-
-							<tr height="120px">
-								<td id="6" class="click" style="cursor: pointer;" onclick="addImage(6)"></td>
-								<td id="7" class="click" style="cursor: pointer;" onclick="addImage(7)"></td>
-								<td id="8" class="click" style="cursor: pointer;" onclick="addImage(8)"></td>
-							</tr>
-
-						</table>
-					</div>
-
-					<div id="scoreboard">
-						<legend>Scoreboard</legend>
-						<div id="scoreList">
-							<ul></ul>
-						</div>
-					</div>
-
+			<div id='scoreboard' class='controls'>
+				Scoreboard<br>
+				<div id='scoreList'>
+					<ul></ul>
 				</div>
-			</section>
-
-			<p id='capt'><I>Did you find any <a href="mailto:tyler.roland92@yahoo.com?subject=Found%20A%20Problem%20(Tic-Tac-Toe)" style="color: white;">problems</a> with or have any <a href="mailto:tyler.roland92@yahoo.com?subject=I've%20Got%20A%20Suggestion!%20(Tic-Tac-Toe)" style="color: white;">suggestions</a> for the game? Please let me know!</I></p>
-
-			<footer>
-				<p>
-					&copy; Copyright Tyler Roland 2015. All rights reserved.
-				</p>
-			</footer>
+			</div>
 		</div>
-	</body>
 
+		<div id='capt'>
+			<p><I>Did you find any <a href="mailto:tyler.roland92@yahoo.com?subject=Found%20A%20Problem%20(Tic-Tac-Toe)">problems</a> with or have any <a href="mailto:tyler.roland92@yahoo.com?subject=I've%20Got%20A%20Suggestion!%20(Tic-Tac-Toe)">suggestions</a> for the game? Please let me know!</I></p>
+		</div>
+
+		<footer>
+			<p>&copy; Copyright Tyler Roland <span id='date'></span>. All rights reserved.</p>
+		</footer>
+	</body>
 </html>

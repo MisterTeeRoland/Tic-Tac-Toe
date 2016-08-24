@@ -10,7 +10,7 @@ var five = {}, six = {}, seven = {}, eight = {}, nine = {};
 
 var squares = [one, two, three, four, five, six, seven, eight, nine];
 
-
+player.name = '';
 player.easyWins = 0;
 player.hardWins = 0;
 player.gamesPlayed = 0;
@@ -20,15 +20,13 @@ player.gamesPlayed = 0;
 //function to start the game after choosing letter and difficulty.
 function startGame()
 {
-	$('#game').show();
-	$('#start').hide();
-	$('#newGame').show();
-	$('#howTo').hide();
+	document.getElementById("play").style.display = 'none';
+	document.getElementById("play2").style.display = 'block';
+	document.getElementById("howtoplay").style.display = 'none';
+	document.getElementById("game").style.display = 'block';
 
 	if (game.diff === 'hard')
-	{
 		compMove();
-	}
 }
 
 //function to start a new game
@@ -36,17 +34,31 @@ function newGame()
 {
 	clearBoard();
 	clearSettings();
-	$("#game").hide();
-	$('#newGame').hide();
-	$('#start').show();
-	$('#letter').show();
-	$('#howTo').show();
-	$('#play').hide();
+	hideAll();
+
+	document.getElementById('howtoplay').style.display = 'block';
+
+	if (player.name == '')
+		document.getElementById("yourname").style.display = 'block';
+	else
+		document.getElementById("letter").style.display = 'block';
+	
 	win = false;
 }
 
-
-
+function hideAll()
+{
+	document.getElementById('yourname').style.display = 'none';
+	document.getElementById('howtoplay').style.display = 'none';
+	document.getElementById('letter').style.display = 'none';
+	document.getElementById('diff').style.display = 'none';
+	document.getElementById('play').style.display = 'none';
+	document.getElementById('game').style.display = 'none';
+	document.getElementById('scoreboard').style.display = 'none';
+	document.getElementById('result').style.display = 'none';
+	document.getElementById('play').style.display = 'none';
+	document.getElementById('play2').style.display = 'none';
+}
 
 //function to clear board of any pieces (new game)
 function clearBoard()
@@ -56,64 +68,48 @@ function clearBoard()
 	{
 		squares[i].empty = true;
 		squares[i].letter = '';
+		document.getElementById(i).innerHTML = "";
 	}
-	$("#board td").html("");
-
-	//resets moves to 0
 	moves = 0;
 }
-
-
-
 
 //function to clear settings (new game)
 function clearSettings()
 {
-	//resets player/computer letters and difficulty to ''
 	player.letter = '';
 	comp.letter = '';
 	game.diff = '';
 }
 
-
 function setName()
 {
 	player.name = document.getElementById("name").value;
-	$('#playerName').hide();
-	$('#letter').show();
+	document.getElementById("yourname").style.display = 'none';
+	document.getElementById("letter").style.display = 'block';
 }
-
 
 //function to set letter 
 function setLetter(let)
 {
 	player.letter = let;
 
-	//if player clicks 'x' button, sets letter to 'x'
 	if (let === 'x')
-	{
 		comp.letter = 'o';
-	}
-
-	//sets letter to 'o'
 	else if (let === 'o')
-	{
 		comp.letter = 'x';
-	}
-	$('#letter').hide();
-	$('#diff').show();
+	
+	document.getElementById('letter').style.display = 'none';
+	document.getElementById('diff').style.display = 'block';
 }
-
 
 //function to set difficulty 
 function setDiff(diff)
 {
-	//assigns difficulty based on user click
 	game.diff = diff;
-	$('#diff').hide();
-	$('#play').show();
-}
 
+	document.getElementById('diff').style.display = 'none';
+	document.getElementById('play').style.display = 'block';
+}
 
 //function to add a game piece to the board
 function addImage(id)
@@ -124,85 +120,36 @@ function addImage(id)
 	//only place piece if square is empty.
 	if(squares[id].empty)
 	{
-		//if player picked 'x', place an X
-		if(player.letter === 'x')
-		{
-			//define image element and add to square
-			img.src = "x.png";
-			document.getElementById(id).appendChild(img);
-			
-			//set the square id to 'false' and letter to 'x'
-			squares[id].empty = false;
-			squares[id].letter = player.letter;	
+		img.src = player.letter+".png";
+		document.getElementById(id).appendChild(img);
+		
+		//current square is no longer empty, holds player letter
+		squares[id].empty = false;
+		squares[id].letter = player.letter;
 
-			//increment move
-			moves++;
+		moves++;
 
-			//only check for a win if more than three moves 
-			//have been made and no one has won yet
-			if (moves >= 3 && !win)
-			{
-				checkWin();
-			}
+		//only check for a win if more than three moves 
+		//have been made and no one has won yet
+		if (moves >= 3 && !win)
+			checkWin();
 
-			//if still no winner and there are moves left, make computer move.
-			if (!win && moves <=8)
-			{
-				compMove(game.diff);
-			}
-		}
-
-		//if player selected 'o', place an O
-		else if (player.letter === 'o')
-		{
-			//set image element source and add to square
-			img.src = "o.png";
-			document.getElementById(id).appendChild(img);
-
-			//sets square empty id to 'false' and letter to 'o'
-			squares[id].empty = false;
-			squares[id].letter = player.letter;	
-
-			//increment move counter
-			moves++;	
-
-			//only check for win if more than three moves and no winner yet
-			if (moves >= 3 && !win)
-			{
-				checkWin();
-			}
-
-			//if still no winner, make computer move
-			if (!win && moves <=8)
-			{
-				compMove(game.diff);
-			}
-		}
-		//tried to place a piece without selecting a letter
-		else
-		{
-			alert("Please select a letter first!");
-		}
+		//if still no winner and there are moves left, make computer move.
+		if (!win && moves <=8)
+			compMove(game.diff);
 	}
 	//if square isn't empty, can't place a piece there
 	else if (!squares[id].empty)
-	{
 		alert("Cannot place here. Not empty.");
-	}
 
 	//random handler ;)
 	else
-	{
 		alert("Cannot place here, try again.");
-	}
 }
-
-
 
 //function for the computer's move based on difficulty.
 function compMove(difficulty)
 {
-	//alert("computer turn" + difficulty);
 	//easy move difficulty
 	if (game.diff === 'easy')
 	{
@@ -219,54 +166,22 @@ function compMove(difficulty)
 			{
 				//creates an image element
 				var img = document.createElement('img');
+				img.src = comp.letter+".png";
+				document.getElementById(cMove).appendChild(img);
 
-				//if computer letter is 'x', places an X
-				if(comp.letter === 'x')
-				{
-					//sets image element source and places to square
-					img.src = "x.png";
-					document.getElementById(cMove).appendChild(img);
-					
-					//sets square empty id to 'false' and letter to 'x'
-					squares[cMove].empty = false;
-					squares[cMove].letter = comp.letter;	
+				squares[cMove].empty = false;
+				squares[cMove].letter = comp.letter;
 
-					//increments move counter
-					moves++;
+				moves++;
 
-					//only check for win if more than three moves and no winner yet
-					if (moves >= 3 && !win)
-					{
-						checkWin();
-					}
-				}
+				if (moves >= 3 && !win)
+					checkWin();
 
-				//if computer letter is 'o', places an O
-				else if (comp.letter === 'o')
-				{
-					//sets image element source and places piece to board
-					img.src = "o.png";
-					document.getElementById(cMove).appendChild(img);
-					
-					//sets square empty id to 'false' and letter to 'o'
-					squares[cMove].empty = false;
-					squares[cMove].letter = comp.letter;	
-
-					//increments move counter
-					moves++;
-
-					//only check for win if more than three moves and no winner yet
-					if (moves >= 3 && !win)
-					{
-						checkWin();
-					}
-				}
 				//computer has made a valid move
 				moved = true;
 			}
 		}
 	}
-
 
 	//hard move difficulty  (NOT DONE YET)
 	else if (game.diff === 'hard')
@@ -301,48 +216,17 @@ function compMove(difficulty)
 			{
 				//creates an image element
 				var img = document.createElement('img');
+				img.src = comp.letter+".png";
+				document.getElementById(cMove).appendChild(img);
 
-				//if computer letter is 'x', places an X
-				if(comp.letter === 'x')
-				{
-					//sets image element source and places to square
-					img.src = "x.png";
-					document.getElementById(cMove).appendChild(img);
-					
-					//sets square empty id to 'false' and letter to 'x'
-					squares[cMove].empty = false;
-					squares[cMove].letter = comp.letter;	
+				squares[cMove].empty = false;
+				squares[cMove].letter = comp.letter;
 
-					//increments move counter
-					moves++;
+				moves++;
 
-					//only check for win if more than three moves and no winner yet
-					if (moves >= 3 && !win)
-					{
-						checkWin();
-					}
-				}
+				if (moves >= 3 && !win)
+					checkWin();
 
-				//if computer letter is 'o', places an O
-				else if (comp.letter === 'o')
-				{
-					//sets image element source and places piece to board
-					img.src = "o.png";
-					document.getElementById(cMove).appendChild(img);
-					
-					//sets square empty id to 'false' and letter to 'o'
-					squares[cMove].empty = false;
-					squares[cMove].letter = comp.letter;	
-
-					//increments move counter
-					moves++;
-
-					//only check for win if more than three moves and no winner yet
-					if (moves >= 3 && !win)
-					{
-						checkWin();
-					}
-				}
 				//computer has made a valid move
 				moved = true;
 			}
@@ -350,11 +234,9 @@ function compMove(difficulty)
 	}
 }
 
-
 function checkWinMove()
 {
 	//check top row
-
 
 	//top right empty
 	if ((squares[0].letter === comp.letter) && (squares[1].letter === comp.letter) && (square[2].letter === '') && (squares[0].letter != '')) 
@@ -374,7 +256,6 @@ function checkWinMove()
 		placeCompMove(0);
 		return true;
 	}
-
 
 	//check middle row
 
@@ -397,7 +278,6 @@ function checkWinMove()
 		return true;
 	}
 
-
 	//check bottom row
 
 	//bottom right empty
@@ -419,7 +299,6 @@ function checkWinMove()
 		return true;
 	}
 
-
 	//check left column
 
 	//left top empty
@@ -440,7 +319,6 @@ function checkWinMove()
 		placeCompMove(6);
 		return true;
 	}
-
 
 	//check middle column
 
@@ -506,7 +384,6 @@ function checkWinMove()
 		return true;
 	}
 
-
 	//check up-right diagonal
 
 	//top right empty
@@ -528,17 +405,10 @@ function checkWinMove()
 		return true;
 	}
 
-
 	//no winning moves
 	else
-	{
 		return false;
-	}
 }
-
-
-
-
 
 
 //function to see if the computer can block the player from winning
@@ -565,7 +435,6 @@ function checkBlockMove()
 		return true;
 	}
 
-
 	//check middle row
 
 	//middle right empty
@@ -586,7 +455,6 @@ function checkBlockMove()
 		placeCompMove(3);
 		return true;
 	}
-
 
 	//check bottom row
 
@@ -609,7 +477,6 @@ function checkBlockMove()
 		return true;
 	}
 
-
 	//check left column
 
 	//left top empty
@@ -631,7 +498,6 @@ function checkBlockMove()
 		return true;
 	}
 
-
 	//check middle column
 
 	//middle top empty
@@ -652,7 +518,6 @@ function checkBlockMove()
 		placeCompMove(7);
 		return true;
 	}
-
 
 	//check right column
 
@@ -696,7 +561,6 @@ function checkBlockMove()
 		return true;
 	}
 
-
 	//check up-right diagonal
 
 	//top right empty
@@ -718,48 +582,22 @@ function checkBlockMove()
 		return true;
 	}
 
-
 	//no winning moves
 	else
-	{
 		return false;
-	}
 }
-
-
 
 function placeCompMove(id)
 {
-	
 	var img = document.createElement('img');
-	
-	if (comp.letter === 'x')
-	{
-		img.src = "x.png";
-		document.getElementById(id).appendChild(img);
-		
-		//sets square empty id to 'false' and letter to 'x'
-		squares[id].empty = false;
-		squares[id].letter = comp.letter;	
+	img.src = comp.letter+".png";
+	document.getElementById(id).appendChild(img);
 
-		//increments move counter
-		moves++;
-	}
-	else if (comp.letter === 'o')
-	{
-		img.src = "o.png";
-		document.getElementById(id).appendChild(img);
-		
-		//sets square empty id to 'false' and letter to 'x'
-		squares[id].empty = false;
-		squares[id].letter = comp.letter;	
+	squares[id].empty = false;
+	squares[id].letter = comp.letter;	
 
-		//increments move counter
-		moves++;
-	}
+	moves++;
 }
-
-
 
 //function to check if someone has won
 function checkWin()
@@ -834,71 +672,65 @@ function checkWin()
 	{
 		if(moves === 9)  // all spaces filled and no win = tie
 		{
-			//game is finished, increment games played
-			alert("The game is a tie. Try it again!");
+			showTie();
+			
 			player.gamesPlayed++;
 			updateScoreboard();
 		}
 	}
-	
 }
 
-
+function showTie() {
+	document.getElementById("result").innerHTML = "The game is a tie. Try it again!";
+	document.getElementById("result").style.display = 'block';
+	document.getElementById('scoreboard').style.display = 'block';
+	document.getElementById('game').style.display = 'none';
+}
 
 //function to show the results after someone has won
 function showWin(let)
 {
-	//game is finished, increment games played
 	player.gamesPlayed++;
 	
 	//player is winning letter
 	if (player.letter === let)
 	{
-		alert("YOU WON! CONGRATULATIONS! :D");
+		document.getElementById("result").innerHTML = "YOU WON!<br>CONGRATULATIONS! :D";
+
+		document.getElementById('game').style.display = 'none';
+		document.getElementById('scoreboard').style.display = 'block';
+
 		if (game.diff === 'easy')
-		{
 			player.easyWins++;
-		}
 		else if (game.diff === 'hard')
-		{
 			player.hardWins++;
-		}
 	}
 
 	//computer is winning letter
 	else if(comp.letter === let)
 	{
-		alert("Sorry, the computer won. Try it again!");
+		document.getElementById('result').innerHTML = "Sorry, the computer won. Try it again!";
+
+		document.getElementById('game').style.display = 'none';
+		document.getElementById('scoreboard').style.display = 'block';
 	}
+
+	document.getElementById('result').style.display = 'block';
 
 	updateScoreboard();
 }
 
-
 //function to update the scoreboard after every game finishes
 function updateScoreboard()
 {
-	//if this is a new player, create new list item
+	//if this is a new player, create new list item. otherwise, replace current list item with "updated" list item
 	if (player.gamesPlayed === 1)
-	{
-		$('#scoreList').append('<li><strong style="font-size: 150%">' + player.name + '</strong><br>Easy wins: ' + player.easyWins + '<br>Hard wins: ' + player.hardWins + '<br>Games played: ' + player.gamesPlayed + '</li>');
-	}
-
-	//otherwise, replace current list item with "updated" list item
+		document.getElementById("scoreList").innerHTML += '<li><strong style="font-size: 150%">' + player.name + '</strong><br>Easy wins: ' + player.easyWins + '<br>Hard wins: ' + player.hardWins + '<br>Games played: ' + player.gamesPlayed + '</li>';
 	else
-	{
-		$('#scoreList li').replaceWith('<li><strong style="font-size: 150%">' + player.name + '</strong><br>Easy wins: ' + player.easyWins + '<br>Hard wins: ' + player.hardWins + ' <br>Games played: ' + player.gamesPlayed + '</li>');
-	}
+		document.getElementById("scoreList").innerHTML = '<li><strong style="font-size: 150%">' + player.name + '</strong><br>Easy wins: ' + player.easyWins + '<br>Hard wins: ' + player.hardWins + ' <br>Games played: ' + player.gamesPlayed + '</li>';
 }
 
-
-
-window.onload = function()
-{
-	clearBoard();
-	$('#game').hide(); //hides game board
-	$('#diff').hide(); //hides difficulty buttons
-	$('#play').hide(); //hides play game buttons
-	$('#newGame').hide();
-	$('#letter').hide();
+window.onload = function() {
+	newGame();
+	document.getElementById('date').innerHTML = new Date().getFullYear();
 };
