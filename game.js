@@ -1,173 +1,133 @@
-var player = {};
-var comp = {};
-var game = {};
+var player = {}, comp = {}, game = {};
 var moves = 0;
 var win = false;
 
-var one = {};
-var two = {}, three = {}, four = {};
-var five = {}, six = {}, seven = {}, eight = {}, nine = {};
-
+var one = {}, two = {}, three = {}, four = {}, five = {}, six = {}, seven = {}, eight = {}, nine = {};
 var squares = [one, two, three, four, five, six, seven, eight, nine];
+var squareArray = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]];
 
-player.name = '';
 player.easyWins = 0;
 player.hardWins = 0;
 player.gamesPlayed = 0;
 
-
-
 //function to start the game after choosing letter and difficulty.
-function startGame()
-{
-	document.getElementById("play").style.display = 'none';
-	document.getElementById("play2").style.display = 'block';
-	document.getElementById("howtoplay").style.display = 'none';
-	document.getElementById("game").style.display = 'block';
+function startGame() {
+	$("#play2").show();
+	$("#howtoplay").hide();
+	$("#game").show();
+	$("#desc").hide();
 
-	if (game.diff === 'hard')
-		compMove();
+	if (game.diff == 'hard') compMove();
 }
 
 //function to start a new game
-function newGame()
-{
+function newGame() {
 	clearBoard();
 	clearSettings();
 	hideAll();
 
-	document.getElementById('howtoplay').style.display = 'block';
-
-	if (player.name == '')
-		document.getElementById("yourname").style.display = 'block';
-	else
-		document.getElementById("letter").style.display = 'block';
+	$("#desc").show();
+	$("#howtoplay").show();
+	$("#letter").show();
+	$("#gameboard").css('width', '420px');
 	
 	win = false;
 }
 
-function hideAll()
-{
-	document.getElementById('yourname').style.display = 'none';
-	document.getElementById('howtoplay').style.display = 'none';
-	document.getElementById('letter').style.display = 'none';
-	document.getElementById('diff').style.display = 'none';
-	document.getElementById('play').style.display = 'none';
-	document.getElementById('game').style.display = 'none';
-	document.getElementById('scoreboard').style.display = 'none';
-	document.getElementById('result').style.display = 'none';
-	document.getElementById('play').style.display = 'none';
-	document.getElementById('play2').style.display = 'none';
+//function to hide all game elements
+function hideAll() {
+	$("#howtoplay").hide();
+	$("#letter").hide();
+	$("#diff").hide();
+	$("#game").hide();
+	$("#scoreboard").hide();
+	$("#result").hide();
+	$("#play2").hide();
 }
 
 //function to clear board of any pieces (new game)
-function clearBoard()
-{
+function clearBoard() {
 	//fills board pieces with "empty" tag and a blank letter
-	for (var i = 0; i < squares.length; i++)
-	{
+	for (var i = 0; i < squares.length; i++) {
 		squares[i].empty = true;
 		squares[i].letter = '';
-		document.getElementById(i).innerHTML = "";
+		$("#"+i).html("");
 	}
 	moves = 0;
 }
 
 //function to clear settings (new game)
-function clearSettings()
-{
+function clearSettings() {
 	player.letter = '';
 	comp.letter = '';
 	game.diff = '';
 }
 
-function setName()
-{
-	player.name = document.getElementById("name").value;
-	document.getElementById("yourname").style.display = 'none';
-	document.getElementById("letter").style.display = 'block';
-}
-
 //function to set letter 
-function setLetter(let)
-{
+function setLetter(let) {
 	player.letter = let;
 
-	if (let === 'x')
-		comp.letter = 'o';
-	else if (let === 'o')
-		comp.letter = 'x';
+	if (let == 'x') comp.letter = 'o';
+	else if (let == 'o') comp.letter = 'x';
 	
-	document.getElementById('letter').style.display = 'none';
-	document.getElementById('diff').style.display = 'block';
+	$("#letter").hide();
+	$("#diff").show();
 }
 
 //function to set difficulty 
-function setDiff(diff)
-{
+function setDiff(diff) {
 	game.diff = diff;
-
-	document.getElementById('diff').style.display = 'none';
-	document.getElementById('play').style.display = 'block';
+	$("#diff").hide();
+	startGame();
 }
 
 //function to add a game piece to the board
-function addImage(id)
-{
-	//creates an image element
-	var img = document.createElement('img');
+function addImage(id) {
 
-	//only place piece if square is empty.
-	if(squares[id].empty)
-	{
-		img.src = player.letter+".png";
-		document.getElementById(id).appendChild(img);
-		
-		//current square is no longer empty, holds player letter
-		squares[id].empty = false;
-		squares[id].letter = player.letter;
+	if (win == false) {
+		//only place piece if square is empty.
+		if(squares[id].empty) {
+			$("#"+id).html("<img src='"+player.letter+".png'>");
+			
+			//current square is no longer empty, holds player letter
+			squares[id].empty = false;
+			squares[id].letter = player.letter;
 
-		moves++;
+			moves++;
 
-		//only check for a win if more than three moves 
-		//have been made and no one has won yet
-		if (moves >= 3 && !win)
-			checkWin();
+			//only check for a win if more than three moves 
+			//have been made and no one has won yet
+			if (moves >= 3 && !win)
+				checkWin();
 
-		//if still no winner and there are moves left, make computer move.
-		if (!win && moves <=8)
-			compMove(game.diff);
+			//if still no winner and there are moves left, make computer move.
+			if (!win && moves <=8)
+				compMove();
+		}
+		//if square isn't empty, can't place a piece there
+		else if (!squares[id].empty)
+			alert("Cannot place here. Not empty.");
+
+		//random handler ;)
+		else
+			alert("Cannot place here, try again.");
 	}
-	//if square isn't empty, can't place a piece there
-	else if (!squares[id].empty)
-		alert("Cannot place here. Not empty.");
-
-	//random handler ;)
-	else
-		alert("Cannot place here, try again.");
 }
 
 //function for the computer's move based on difficulty.
-function compMove(difficulty)
-{
+function compMove() {
 	//easy move difficulty
-	if (game.diff === 'easy')
-	{
+	if (game.diff == 'easy') {
 		var moved = false;
 		
 		//until the computer has made a valid move
-		while (!moved)
-		{
+		while (!moved) {
 			//finds a random number, places image at that spot (if empty.)
 			var cMove = Math.floor(Math.random()*9);
 			
 			//if chosen square is empty
-			if(squares[cMove].empty)
-			{
-				//creates an image element
-				var img = document.createElement('img');
-				img.src = comp.letter+".png";
-				document.getElementById(cMove).appendChild(img);
+			if(squares[cMove].empty) {
+				$("#"+cMove).html("<img src='"+comp.letter+".png'>");
 
 				squares[cMove].empty = false;
 				squares[cMove].letter = comp.letter;
@@ -184,24 +144,20 @@ function compMove(difficulty)
 	}
 
 	//hard move difficulty  (NOT DONE YET)
-	else if (game.diff === 'hard')
-	{
+	else if (game.diff == 'hard') {
 		var moved = false;
 		
 		//until the computer has made a valid move
-		while (!moved)
-		{
-			if (moves >= 3)
-			{
-				if (checkWinMove())
-				{
+		while (!moved) {
+			if (moves >= 3) {
+				if (checkMove(comp)) {
 					moved = true;
 					checkWin();
 					break;
 				}
 
-				else if (checkBlockMove())
-				{
+				//else if (checkBlockMove()) {
+				else if (checkMove(player)) {
 					moved = true;
 					checkWin();
 					break;
@@ -212,12 +168,8 @@ function compMove(difficulty)
 			var cMove = Math.floor(Math.random()*9);
 			
 			//if chosen square is empty
-			if(squares[cMove].empty)
-			{
-				//creates an image element
-				var img = document.createElement('img');
-				img.src = comp.letter+".png";
-				document.getElementById(cMove).appendChild(img);
+			if(squares[cMove].empty) {
+				$("#"+cMove).html("<img src='"+comp.letter+".png'>");
 
 				squares[cMove].empty = false;
 				squares[cMove].letter = comp.letter;
@@ -234,364 +186,36 @@ function compMove(difficulty)
 	}
 }
 
-function checkWinMove()
-{
-	//check top row
+//function to check for a computer move. Checks for block or win, depending on whose letter is passed through (player == block, comp == win)
+function checkMove(whose) {
 
-	//top right empty
-	if ((squares[0].letter === comp.letter) && (squares[1].letter === comp.letter) && (square[2].letter === '') && (squares[0].letter != '')) 
-	{
-		placeCompMove(2);
-		return true;
-	}
-	//top middle empty
-	else if ((squares[0].letter === comp.letter) && (squares[2].letter === comp.letter) && (squares[1].letter === '') && (squares[0].letter != '')) 
-	{
-		placeCompMove(1);
-		return true;
-	}
-	//top left empty
-	else if ((squares[1].letter === comp.letter) && (squares[2].letter === comp.letter) && (squares[0].letter === '') && (squares[1].letter != ''))
-	{
-		placeCompMove(0);
-		return true;
-	}
+	for (var i = 0; i < squareArray.length; i++) {
+		var first = squareArray[i][0];
+		var second = squareArray[i][1];
+		var third = squareArray[i][2];
 
-	//check middle row
-
-	//middle right empty
-	else if (squares[3].letter === comp.letter && squares[4].letter === comp.letter && squares[5].letter === '' && squares[3].letter != '')
-	{
-		placeCompMove(5);
-		return true;
-	}
-	//middle middle empty
-	else if (squares[3].letter === comp.letter && squares[5].letter === comp.letter && squares[4].letter === '' && squares[3].letter != '')
-	{
-		placeCompMove(4);
-		return true;
-	}
-	//middle left empty
-	else if (squares[4].letter === comp.letter && squares[5].letter === comp.letter && squares[3].letter === '' && squares[4].letter != '')
-	{
-		placeCompMove(3);
-		return true;
+		//top right empty
+		if ((squares[first].letter == whose.letter) && (squares[second].letter == whose.letter) && (squares[third].letter == '') && (squares[first].letter != '')) {
+			placeCompMove(third);
+			return true;
+		}
+		//top middle empty
+		else if ((squares[first].letter == whose.letter) && (squares[third].letter == whose.letter) && (squares[second].letter == '') && (squares[first].letter != '')) {
+			placeCompMove(second);
+			return true;
+		}
+		//top left empty
+		else if ((squares[second].letter == whose.letter) && (squares[third].letter == whose.letter) && (squares[first].letter == '') && (squares[second].letter != '')) {
+			placeCompMove(first);
+			return true;
+		}
 	}
 
-	//check bottom row
-
-	//bottom right empty
-	else if (squares[6].letter === comp.letter && squares[7].letter === comp.letter && squares[8].letter === '' && squares[6].letter != '')
-	{
-		placeCompMove(8);
-		return true;
-	}
-	//bottom middle empty
-	else if (squares[6].letter === comp.letter && squares[8].letter === comp.letter && squares[7].letter === '' && squares[6].letter != '')
-	{
-		placeCompMove(7);
-		return true;
-	}
-	//bottom left empty
-	else if (squares[7].letter === comp.letter && squares[8].letter === comp.letter && squares[6].letter === '' && squares[7].letter != '')
-	{
-		placeCompMove(6);
-		return true;
-	}
-
-	//check left column
-
-	//left top empty
-	else if (squares[3].letter === comp.letter && squares[6].letter === comp.letter && squares[0].letter === '' && squares[3].letter != '')
-	{
-		placeCompMove(0);
-		return true;
-	}
-	//left middle empty
-	else if (squares[0].letter === comp.letter && squares[6].letter === comp.letter && squares[3].letter === '' && squares[0].letter != '')
-	{
-		placeCompMove(3);
-		return true;
-	}
-	//left bottom empty
-	else if (squares[0].letter === comp.letter && squares[3].letter === comp.letter && squares[6].letter === '' && squares[0].letter != '')
-	{
-		placeCompMove(6);
-		return true;
-	}
-
-	//check middle column
-
-	//middle top empty
-	else if (squares[4].letter === comp.letter && squares[7].letter === comp.letter && squares[1].letter === '' && squares[4].letter != '')
-	{
-		placeCompMove(1);
-		return true;
-	}
-	//middle middle empty
-	else if (squares[1].letter === comp.letter && squares[7].letter === comp.letter && squares[4].letter === '' && squares[1].letter != '')
-	{
-		placeCompMove(4);
-		return true;
-	}
-	//middle bottom empty
-	else if (squares[1].letter === comp.letter && squares[4].letter === comp.letter && squares[7].letter === '' && squares[1].letter != '')
-	{
-		placeCompMove(7);
-		return true;
-	}
-
-
-	//check right column
-
-	//right top empty
-	else if (squares[5].letter === comp.letter && squares[8].letter === comp.letter && squares[2].letter === '' && squares[5].letter != '')
-	{
-		placeCompMove(2);
-		return true;
-	}
-	//right middle empty
-	else if (squares[2].letter === comp.letter && squares[8].letter === comp.letter && squares[5].letter === '' && squares[2].letter != '')
-	{
-		placeCompMove(5);
-		return true;
-	}
-	//right bottom empty
-	else if (squares[2].letter === comp.letter && squares[5].letter === comp.letter && squares[8].letter === '' && squares[2].letter != '')
-	{
-		placeCompMove(8);
-		return true;
-	}
-
-	//check down-right diagonal
-
-	//top left empty
-	else if (squares[4].letter === comp.letter && squares[8].letter === comp.letter && squares[0].letter === '' && squares[4].letter != '')
-	{
-		placeCompMove(0);
-		return true;
-	}
-	//middle middle empty
-	else if (squares[0].letter === comp.letter && squares[8].letter === comp.letter && squares[4].letter === '' && squares[0].letter != '')
-	{
-		placeCompMove(4);
-		return true;
-	}
-	//bottom right empty
-	else if (squares[0].letter === comp.letter && squares[4].letter === comp.letter && squares[8].letter === '' && squares[0].letter != '')
-	{
-		placeCompMove(8);
-		return true;
-	}
-
-	//check up-right diagonal
-
-	//top right empty
-	else if (squares[4].letter === comp.letter && squares[6].letter === comp.letter && squares[2].letter === '' && squares[6].letter != '')
-	{
-		placeCompMove(2);
-		return true;
-	}
-	//middle middle empty
-	else if (squares[2].letter === comp.letter && squares[6].letter === comp.letter && squares[4].letter === '' && squares[2].letter != '')
-	{
-		placeCompMove(4);
-		return true;
-	}
-	//bottom left empty
-	else if (squares[2].letter === comp.letter && squares[4].letter === comp.letter && squares[6].letter === '' && squares[2].letter != '')
-	{
-		placeCompMove(6);
-		return true;
-	}
-
-	//no winning moves
-	else
-		return false;
+	return false;
 }
 
-
-//function to see if the computer can block the player from winning
-function checkBlockMove()
-{
-	//check top row
-
-	//top right empty
-	if ((squares[0].letter === player.letter) && (squares[1].letter === player.letter) && (square[2].letter === '') && (squares[0].letter != '')) 
-	{
-		placeCompMove(2);
-		return true;
-	}
-	//top middle empty
-	else if ((squares[0].letter === player.letter) && (squares[2].letter === player.letter) && (squares[1].letter === '') && (squares[0].letter != '')) 
-	{
-		placeCompMove(1);
-		return true;
-	}
-	//top left empty
-	else if ((squares[1].letter === player.letter) && (squares[2].letter === player.letter) && (squares[0].letter === '') && (squares[1].letter != ''))
-	{
-		placeCompMove(0);
-		return true;
-	}
-
-	//check middle row
-
-	//middle right empty
-	else if (squares[3].letter === player.letter && squares[4].letter === player.letter && squares[5].letter === '' && squares[3].letter != '')
-	{
-		placeCompMove(5);
-		return true;
-	}
-	//middle middle empty
-	else if (squares[3].letter === player.letter && squares[5].letter === player.letter && squares[4].letter === '' && squares[3].letter != '')
-	{
-		placeCompMove(4);
-		return true;
-	}
-	//middle left empty
-	else if (squares[4].letter === player.letter && squares[5].letter === player.letter && squares[3].letter === '' && squares[4].letter != '')
-	{
-		placeCompMove(3);
-		return true;
-	}
-
-	//check bottom row
-
-	//bottom right empty
-	else if (squares[6].letter === player.letter && squares[7].letter === player.letter && squares[8].letter === '' && squares[6].letter != '')
-	{
-		placeCompMove(8);
-		return true;
-	}
-	//bottom middle empty
-	else if (squares[6].letter === player.letter && squares[8].letter === player.letter && squares[7].letter === '' && squares[6].letter != '')
-	{
-		placeCompMove(7);
-		return true;
-	}
-	//bottom left empty
-	else if (squares[7].letter === player.letter && squares[8].letter === player.letter && squares[6].letter === '' && squares[7].letter != '')
-	{
-		placeCompMove(6);
-		return true;
-	}
-
-	//check left column
-
-	//left top empty
-	else if (squares[3].letter === player.letter && squares[6].letter === player.letter && squares[0].letter === '' && squares[3].letter != '')
-	{
-		placeCompMove(0);
-		return true;
-	}
-	//left middle empty
-	else if (squares[0].letter === player.letter && squares[6].letter === player.letter && squares[3].letter === '' && squares[0].letter != '')
-	{
-		placeCompMove(3);
-		return true;
-	}
-	//left bottom empty
-	else if (squares[0].letter === player.letter && squares[3].letter === player.letter && squares[6].letter === '' && squares[0].letter != '')
-	{
-		placeCompMove(6);
-		return true;
-	}
-
-	//check middle column
-
-	//middle top empty
-	else if (squares[4].letter === player.letter && squares[7].letter === player.letter && squares[1].letter === '' && squares[4].letter != '')
-	{
-		placeCompMove(1);
-		return true;
-	}
-	//middle middle empty
-	else if (squares[1].letter === player.letter && squares[7].letter === player.letter && squares[4].letter === '' && squares[1].letter != '')
-	{
-		placeCompMove(4);
-		return true;
-	}
-	//middle bottom empty
-	else if (squares[1].letter === player.letter && squares[4].letter === player.letter && squares[7].letter === '' && squares[1].letter != '')
-	{
-		placeCompMove(7);
-		return true;
-	}
-
-	//check right column
-
-	//right top empty
-	else if (squares[5].letter === player.letter && squares[8].letter === player.letter && squares[2].letter === '' && squares[5].letter != '')
-	{
-		placeCompMove(2);
-		return true;
-	}
-	//right middle empty
-	else if (squares[2].letter === player.letter && squares[8].letter === player.letter && squares[5].letter === '' && squares[2].letter != '')
-	{
-		placeCompMove(5);
-		return true;
-	}
-	//right bottom empty
-	else if (squares[2].letter === player.letter && squares[5].letter === player.letter && squares[8].letter === '' && squares[2].letter != '')
-	{
-		placeCompMove(8);
-		return true;
-	}
-
-	//check down-right diagonal
-
-	//top left empty
-	else if (squares[4].letter === player.letter && squares[8].letter === player.letter && squares[0].letter === '' && squares[4].letter != '')
-	{
-		placeCompMove(0);
-		return true;
-	}
-	//middle middle empty
-	else if (squares[0].letter === player.letter && squares[8].letter === player.letter && squares[4].letter === '' && squares[0].letter != '')
-	{
-		placeCompMove(4);
-		return true;
-	}
-	//bottom right empty
-	else if (squares[0].letter === player.letter && squares[4].letter === player.letter && squares[8].letter === '' && squares[0].letter != '')
-	{
-		placeCompMove(8);
-		return true;
-	}
-
-	//check up-right diagonal
-
-	//top right empty
-	else if (squares[4].letter === player.letter && squares[6].letter === player.letter && squares[2].letter === '' && squares[6].letter != '')
-	{
-		placeCompMove(2);
-		return true;
-	}
-	//middle middle empty
-	else if (squares[2].letter === player.letter && squares[6].letter === player.letter && squares[4].letter === '' && squares[2].letter != '')
-	{
-		placeCompMove(4);
-		return true;
-	}
-	//bottom left empty
-	else if (squares[2].letter === player.letter && squares[4].letter === player.letter && squares[6].letter === '' && squares[2].letter != '')
-	{
-		placeCompMove(6);
-		return true;
-	}
-
-	//no winning moves
-	else
-		return false;
-}
-
-function placeCompMove(id)
-{
-	var img = document.createElement('img');
-	img.src = comp.letter+".png";
-	document.getElementById(id).appendChild(img);
+function placeCompMove(id) {
+	$("#"+id).html("<img src='"+comp.letter+".png'>");
 
 	squares[id].empty = false;
 	squares[id].letter = comp.letter;	
@@ -600,137 +224,69 @@ function placeCompMove(id)
 }
 
 //function to check if someone has won
-function checkWin()
-{
-	//if checkWin is returns true, check who each letter belongs to.
+function checkWin() {
 
-	//check top row
-	if (squares[0].letter === squares[1].letter && squares[1].letter === squares[2].letter && squares[0].letter != '')
-	{
-		showWin(squares[0].letter);
-		win = true;
-		return true;
-	}
+	for (var i = 0; i < squareArray.length; i++) {
+		var first = squareArray[i][0];
+		var second = squareArray[i][1];
+		var third = squareArray[i][2];
 
-	//check middle row
-	else if (squares[3].letter === squares[4].letter && squares[4].letter === squares[5].letter && squares[3].letter != '')
-	{
-		showWin(squares[3].letter);
-		win = true;
-		return true;
-	}
-
-	//check bottom row
-	else if ((squares[6].letter === squares[7].letter) && (squares[7].letter === squares[8].letter) && squares[6].letter != '')
-	{
-		showWin(squares[6].letter);
-		win = true;
-		return true;
-	}
-
-	//check left column
-	else if (squares[0].letter === squares[3].letter && squares[3].letter === squares[6].letter && squares[0].letter != '')
-	{
-		showWin(squares[0].letter);
-		win = true;
-		return true;
-	}
-
-	//check middle column
-	else if (squares[1].letter === squares[4].letter && squares[4].letter === squares[7].letter && squares[1].letter != '')
-	{
-		showWin(squares[1].letter);
-		win = true;
-		return true;
-	}
-
-	//check right column
-	else if (squares[2].letter === squares[5].letter && squares[5].letter === squares[8].letter && squares[2].letter != '')
-	{
-		showWin(squares[2].letter);
-		win = true;
-		return true;
-	}
-
-	//check down-right diagonal
-	else if (squares[0].letter === squares[4].letter && squares[4].letter === squares[8].letter && squares[0].letter != '')
-	{
-		showWin(squares[0].letter);
-		win = true;
-		return true;
-	}
-
-	//check up-right diagonal
-	else if (squares[2].letter === squares[4].letter && squares[4].letter === squares[6].letter && squares[2].letter != 0)
-	{
-		showWin(squares[2].letter);
-		win = true;
-		return true;
-	}
-
-	else //not a winning move
-	{
-		if(moves === 9)  // all spaces filled and no win = tie
-		{
-			showTie();
-			
-			player.gamesPlayed++;
-			updateScoreboard();
+		if (squares[first].letter == squares[second].letter && squares[second].letter == squares[third].letter && squares[first].letter != '') {
+			showWin(squares[first].letter);
+			win = true;
+			return true;
 		}
+	}
+
+	if(moves == 9) { // all spaces filled and no win = tie
+		showTie();
+		player.gamesPlayed++;
+		updateScoreboard();
 	}
 }
 
 function showTie() {
-	document.getElementById("result").innerHTML = "The game is a tie. Try it again!";
-	document.getElementById("result").style.display = 'block';
-	document.getElementById('scoreboard').style.display = 'block';
-	document.getElementById('game').style.display = 'none';
+	win = true;
+	$("#result").html("The game is a tie. Try it again!");
+	$("#result").show();
+	ShowScoreboard();
 }
 
 //function to show the results after someone has won
-function showWin(let)
-{
+function showWin(let) {
 	player.gamesPlayed++;
 	
 	//player is winning letter
-	if (player.letter === let)
-	{
-		document.getElementById("result").innerHTML = "YOU WON!<br>CONGRATULATIONS! :D";
+	if (player.letter == let) {
+		$("#result").html("YOU WON!<br>CONGRATULATIONS! :D");
+		ShowScoreboard();
 
-		document.getElementById('game').style.display = 'none';
-		document.getElementById('scoreboard').style.display = 'block';
-
-		if (game.diff === 'easy')
-			player.easyWins++;
-		else if (game.diff === 'hard')
-			player.hardWins++;
+		if (game.diff == 'easy') player.easyWins++;
+		else if (game.diff == 'hard') player.hardWins++;
 	}
 
 	//computer is winning letter
-	else if(comp.letter === let)
-	{
-		document.getElementById('result').innerHTML = "Sorry, the computer won. Try it again!";
-
-		document.getElementById('game').style.display = 'none';
-		document.getElementById('scoreboard').style.display = 'block';
+	else if(comp.letter == let) {
+		$("#result").html("Sorry, the computer won.<br>Try it again!");
+		ShowScoreboard();
 	}
 
-	document.getElementById('result').style.display = 'block';
-
+	$("#result").show();
 	updateScoreboard();
 }
 
 //function to update the scoreboard after every game finishes
-function updateScoreboard()
-{
-	//if this is a new player, create new list item. otherwise, replace current list item with "updated" list item
-	if (player.gamesPlayed === 1)
-		document.getElementById("scoreList").innerHTML += '<li><strong style="font-size: 150%">' + player.name + '</strong><br>Easy wins: ' + player.easyWins + '<br>Hard wins: ' + player.hardWins + '<br>Games played: ' + player.gamesPlayed + '</li>';
-	else
-		document.getElementById("scoreList").innerHTML = '<li><strong style="font-size: 150%">' + player.name + '</strong><br>Easy wins: ' + player.easyWins + '<br>Hard wins: ' + player.hardWins + ' <br>Games played: ' + player.gamesPlayed + '</li>';
+function updateScoreboard() {
+	$("#scoreList").html('Easy wins: ' + player.easyWins + '<br>Hard wins: ' + player.hardWins + ' <br>Games played: ' + player.gamesPlayed);
 }
 
 window.onload = function() {
 	newGame();
-	document.getElementById('date').innerHTML = new Date().getFullYear();
+	$("#date").html(new Date().getFullYear());
 };
+
+//function to handle expanding the gameboard to make the scoreboard next to the game table
+function ShowScoreboard() {
+	if ($(window).width() > 1420) $("#gameboard").css('width', '60%');
+	$("#scoreboard").show();
+}
