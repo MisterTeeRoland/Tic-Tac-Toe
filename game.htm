@@ -2,20 +2,20 @@
 <html>
 	<head>
 		<meta charset="UTF-8" />
+		<meta name='viewport' content='width=device-width, initial-scale=1'/>
 		<title>Tyler Roland | Tic-Tac-Toe</title>
 		<style>
 		<!--
-			body {background-color: #494949; font-family: Josefin Sans, sans-serif; color: white; width: 100%; margin: auto;}
-			header{color: white; text-align: center; padding: 100px 0; background-color: #4070b8}
+			body {background-color: #ef7581; font-family: Varela Round, sans-serif; color: white; width: 100%; margin: auto;}
+			header{color: white; text-align: center; padding: 50px 0; background-color: #4070b8;}
 			section{text-align: center; padding-top: 20px; padding-bottom: 20px; margin: auto;}
 			h1 {font-size: 5em; padding: 0; margin: 0;}
 			h2 {font-size: 3em; padding: 0; margin: 0;}
 			h4 {font-size: 2em; padding: 0; margin: 0;}
-			#gamespace {padding: 150px 0; margin: 0; background-color: #ef7581;}
-			#result {text-align: center; font-size: 3.5vw; padding: 20px 0;}
-			.controls {text-align: center; margin: 40px auto 0; min-height: 50px;}
-			#play, #play2 {text-align: center; margin: auto;}
-			input[type=text] {border:0; height: 30px; border-radius: 10px; font-size: 20px; padding-left: 10px;}
+			#gamespace {padding: 50px 0 100px 0; margin: 0;}
+			#result {text-align: center; font-size: 60px; padding: 20px 0;}
+			.controls {text-align: center; margin: 40px auto; }
+			#play2 {text-align: center; margin: auto;}
 			td {width: 120px; height: 120px; cursor: pointer;}
 			tr:first-child td:first-child {border-radius: 10px 0 0 0;}
 			tr:first-child td:last-child {border-radius: 0 10px 0 0;}
@@ -24,40 +24,37 @@
 			.even {background-color: #494949;}
 			.odd {background-color: black;}
 			table {border-collapse: collapse; margin: auto;}
-			.click a {display: block;}
-			button {border:0; height: 30px; min-width: 50px; border-radius: 5px; padding: 5px; background-color: #e1e1e1; color: #494949;}
-			#scoreboard {height: 360px; width: 200px;}
-			#scoreList {border: 1px solid white; border-radius: 10px; height: 300px;}
-			#scoreboard li {text-align: left; padding-left: 10px; padding-bottom: 10px; text-decoration: none;list-style: none;}
-			#capt {text-align: center; background-color: white; color: #494949; margin: 0; padding: 25px 0;}
-			#capt p {max-width: 70%; margin: auto; font-size: 1.5vw;}
-			#capt a:link, #capt a:visited{text-decoration: underline; color: #ef7581;}
-			#capt a:hover{color: black;}
-			footer p {font-size: 1em; text-align: center; font-size: 1vw;}
-			footer {color: white; background-color: #494949; padding: 15px 0;}
+			.game {display: inline-block; vertical-align: top; margin: 30px;}
+			button {border:0; background-color: #fff; box-shadow: 2px 2px 2px #222; margin-top: 5px; cursor: pointer; font-family: Varela Round, sans-serif; min-height: 30px; min-width: 50px; border-radius: 5px; padding: 5px 10px; color: #222;}
+			button:hover {background-color: #ccc;}
+			#scoreboard {width: 360px; background-color: #4070b8; border-radius: 10px; padding-top: 5px;}
+			#scoreList {text-align: left; border-radius: 0 0 10px 10px; background-color: #222; padding: 5px;}
+			#scoreboard {text-align: center; font-size: 20px;}
+			#gameboard {width: 420px; margin: auto;}
+			footer {color: white; background-color: #222; padding: 15px 0; text-align: center; bottom: 0; position: fixed; width: 100%;}
+			@media screen and (max-width: 1420px) {
+				#result {font-size: 30px;}
+				.game {margin: 30px;}
+			}
 		-->
 		</style>
+		<script src='jquery3.1.1.min.js'></script>
 		<script src='game.js'></script>
-		<link href='https://fonts.googleapis.com/css?family=Josefin+Sans:600' rel='stylesheet' type='text/css'>
+		<link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">	
 	</head>
 
 	<body>
-		<header>
+		<header id='header'>
 			<h1>Tic-Tac-Toe</h1>
-			<h4><i>Simple. Elegant.</i></h4>
+			<h4 id='desc'><i>Simple. Elegant.</i></h4>
 		</header>
 
 		<div id='gamespace'>
-			<div><h2 id='result'></h2></div>
+			<h2 id='result'></h2>
 
 			<div id='howtoplay' class='controls'>
 				<h2><u>How To Play</u></h2>
-				<p>Select X or O.<br>Select difficulty.<br>Select squares.<br>Win.</p><br><br>
-			</div>
-
-			<div id='yourname' class='controls'>
-				<input type='text' id='name' placeholder='Your Name'>
-				<button onclick='setName()'>Submit</button>
+				<p>Select X or O.<br>Select difficulty.<br>Select squares.<br>Win.</p>
 			</div>
 
 			<div id='letter' class='controls'>
@@ -72,48 +69,38 @@
 				<button onclick='setDiff("hard")'>Hard</button>
 			</div>
 
-			<div id='play'>
-				<button id='start' onclick='startGame()'>Start Game!</button>
-			</div>
-
 			<div id='play2'>
 				<button id='new' onclick='newGame()'>New Game</button>
 			</div>
 
-			<div id="game" class='controls'>
-				<table id="board">
-					<tr>
-						<td id="0" class="click even" onclick="addImage(0)"></td>
-						<td id="1" class="click odd" onclick="addImage(1)"></td>
-						<td id="2" class="click even" onclick="addImage(2)"></td>
-					</tr>
-					<tr>
-						<td id="3" class="click odd" onclick="addImage(3)"></td>
-						<td id="4" class="click even" onclick="addImage(4)"></td>
-						<td id="5" class="click odd" onclick="addImage(5)"></td>
-					</tr>
-					<tr>
-						<td id="6" class="click even" onclick="addImage(6)"></td>
-						<td id="7" class="click odd" onclick="addImage(7)"></td>
-						<td id="8" class="click even" onclick="addImage(8)"></td>
-					</tr>
-				</table>
-			</div>
+			<div id='gameboard'>
+				<div id="game" class='game controls'>
+					<table id="board">
+						<tr>
+							<td id="0" class="click even" onclick="addImage(0)"></td>
+							<td id="1" class="click odd" onclick="addImage(1)"></td>
+							<td id="2" class="click even" onclick="addImage(2)"></td>
+						</tr>
+						<tr>
+							<td id="3" class="click odd" onclick="addImage(3)"></td>
+							<td id="4" class="click even" onclick="addImage(4)"></td>
+							<td id="5" class="click odd" onclick="addImage(5)"></td>
+						</tr>
+						<tr>
+							<td id="6" class="click even" onclick="addImage(6)"></td>
+							<td id="7" class="click odd" onclick="addImage(7)"></td>
+							<td id="8" class="click even" onclick="addImage(8)"></td>
+						</tr>
+					</table>
+				</div>
 
-			<div id='scoreboard' class='controls'>
-				Scoreboard<br>
-				<div id='scoreList'>
-					<ul></ul>
+				<div id='scoreboard' class='game controls'>
+					SCOREBOARD<br>
+					<div id='scoreList'></div>
 				</div>
 			</div>
 		</div>
 
-		<div id='capt'>
-			<p><I>Did you find any <a href="mailto:tyler.roland92@yahoo.com?subject=Found%20A%20Problem%20(Tic-Tac-Toe)">problems</a> with or have any <a href="mailto:tyler.roland92@yahoo.com?subject=I've%20Got%20A%20Suggestion!%20(Tic-Tac-Toe)">suggestions</a> for the game? Please let me know!</I></p>
-		</div>
-
-		<footer>
-			<p>&copy; Copyright Tyler Roland <span id='date'></span>. All rights reserved.</p>
-		</footer>
+		<footer>&copy; Copyright Tyler Roland <span id='date'></span>. All rights reserved.</footer>
 	</body>
 </html>
