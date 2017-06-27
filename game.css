@@ -1,0 +1,196 @@
+/*
+	game.css
+	Tyler Roland
+	Modified 6/25/17
+	Tic Tac Toe style sheet
+*/
+
+
+
+/* -- Imported fonts -- */
+
+@font-face {
+	font-family: VarelaRound;
+	src: url(fonts/VarelaRound.ttf);
+}
+
+
+
+/* -- General styles -- */
+
+body {
+	color: #444;
+	font-family: VarelaRound, sans-serif;
+	margin: 0 auto -1px;
+	width: 100%; 
+}
+
+#jumbotron {
+	background-color: #4070b8;
+	color: white; 
+	padding: 50px 0; 
+	text-align: center;
+}
+
+.jumbotron {
+	margin-bottom: 0;
+}
+
+
+h1, h2, h4 {
+	margin: 0;
+	padding: 0;
+}
+
+h1 {
+	font-size: 5em;
+}
+
+h2 {
+	font-size: 3em;
+}
+
+h4 {
+	font-size: 2em; 
+}
+
+
+#gamespace {
+	margin: 0;
+	padding: 20px 0 50px; 
+}
+
+
+#diff, #play2, #gameboard {
+	display: none;
+}
+
+#gameboard, #play2 {
+	margin: auto; 
+	text-align: center;
+}
+
+.controls {
+	margin: 40px auto;
+	text-align: center;
+}
+
+.game {
+	display: inline-block; 
+	margin: 30px;
+	vertical-align: top;
+}
+
+table {
+	border-collapse: collapse; 
+	margin: auto;
+}
+
+td {
+	cursor: pointer;
+	height: 80px;
+	width: 80px; 
+}
+
+td img {
+	height: 80px;
+	width: 80px;
+}
+
+tr:first-child td:first-child {
+	border-radius: 10px 0 0 0;
+}
+
+tr:first-child td:last-child {
+	border-radius: 0 10px 0 0;
+}
+
+tr:last-child td:first-child {
+	border-radius: 0 0 0 10px;
+}
+
+tr:last-child td:last-child {
+	border-radius: 0 0 10px 0;
+}
+
+.even {
+	background-color: #494949;
+}
+
+.odd {
+	background-color: black;
+}
+
+
+button {
+	background-color: #fff;
+	border:0;  
+	border-radius: 5px;
+	box-shadow: 2px 2px 2px #222; 
+	color: #222;
+	cursor: pointer;
+	font-family: VarelaRound, sans-serif;
+	margin-top: 5px;   
+	min-height: 30px; 
+	min-width: 50px;  
+	padding: 5px 10px;
+}
+
+button:hover {
+	background-color: #ccc;
+}
+
+
+
+/* -- Scoreboard -- */
+
+#scoreboard {
+	background-color: #4070b8; 
+	border-radius: 10px;
+	color: white;
+	font-size: 20px;
+	padding-top: 5px;
+	text-align: center;
+	width: 240px;
+}
+
+#scoreList {
+	background-color: #222; 
+	border-radius: 0 0 10px 10px; 
+	padding: 5px;
+	text-align: left;
+}
+
+#result { 
+	font-size: 45px; 
+	padding: 20px 0;
+	text-align: center;
+}
+
+
+
+/* -- Footer -- */
+
+.footer {
+	background-color: #ccc;
+	bottom: 0;
+	color: white;  
+	padding: 15px 0; 
+	position: fixed;
+	text-align: center; 
+	width: 100%;
+}
+
+
+
+/* -- Responsiveness -- */
+
+@media screen and (max-width: 1420px) {
+	#result {
+		font-size: 30px;
+	}
+	
+	.game {
+		margin: 30px;
+	}
+}
