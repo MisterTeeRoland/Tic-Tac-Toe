@@ -22,7 +22,7 @@ player.gamesPlayed = 0;
 function startGame() {
 	
 	hideAll();
-	$("#play2").show();
+	$("#play").show();
 	$("#gameboard").show();
 	$("#game").show();
 
@@ -34,14 +34,27 @@ function startGame() {
 function newGame() {
 	
 	clearBoard();
-	clearSettings();
 	hideAll();
 
+	if (player.gamesPlayed == 0) {
+		changeSettings()
+	}
+
+	//don't change settings if player wants to keep playing.
+	else {
+		win = false;
+		setDiff(game.diff);
+	}
+}
+
+function changeSettings() {
+	win = false;
+	clearBoard();
+	clearSettings();
+	hideAll();
 	$("#desc").show();
 	$("#howtoplay").show();
 	$("#letter").show();
-	
-	win = false;
 }
 
 //function to hide all game elements
@@ -53,7 +66,7 @@ function hideAll() {
 	$("#game").hide();
 	$("#scoreboard").hide();
 	$("#result").hide();
-	$("#play2").hide();
+	$("#play").hide();
 }
 
 //function to clear board of any pieces (new game)
@@ -94,6 +107,12 @@ function setDiff(diff) {
 	
 	game.diff = diff;
 	$("#diff").hide();
+
+	$("#board").animateCss("slideInLeft");
+
+	$("#board caption").html("Difficulty: " 
+		+ ((game.diff == 'easy') ? "Easy" : "Hard") + "<br>You: " + player.letter.toUpperCase() 
+		+ " | Computer: " + comp.letter.toUpperCase());
 	startGame();
 }
 
@@ -105,7 +124,7 @@ function addImage(id) {
 		//only place piece if square is empty.
 		if(squares[id].empty) {
 			
-			$("#"+id).html("<img src='img/"+player.letter+".png'>");
+			$("#"+id).html("<img src='img/"+player.letter+".png' class='animated flipInX'>");
 			
 			//current square is no longer empty, holds player letter
 			squares[id].empty = false;
@@ -144,7 +163,7 @@ function compMove() {
 			//if chosen square is empty
 			if(squares[cMove].empty) {
 				
-				$("#"+cMove).html("<img src='img/"+comp.letter+".png'>");
+				$("#"+cMove).html("<img src='img/"+comp.letter+".png' class='animated flipInX'>");
 
 				squares[cMove].empty = false;
 				squares[cMove].letter = comp.letter;
@@ -190,7 +209,7 @@ function compMove() {
 			//if chosen square is empty
 			if(squares[cMove].empty) {
 				
-				$("#"+cMove).html("<img src='img/"+comp.letter+".png'>");
+				$("#"+cMove).html("<img src='img/"+comp.letter+".png' class='animated flipInX'>");
 
 				squares[cMove].empty = false;
 				squares[cMove].letter = comp.letter;
@@ -244,7 +263,7 @@ function checkMove(whose) {
 //function to place computer piece at location.
 function placeCompMove(id) {
 	
-	$("#"+id).html("<img src='img/"+comp.letter+".png'>");
+	$("#"+id).html("<img src='img/"+comp.letter+".png' class='animated flipInX'>");
 
 	squares[id].empty = false;
 	squares[id].letter = comp.letter;	
@@ -284,7 +303,7 @@ function showTie() {
 	
 	win = true; //game is over, not necessarily won
 
-	$("#result").html("The game is a tie. Try it again!").show();
+	$("#result").html("The game is a tie.<br>Try it again!").show();
 	ShowScoreboard();
 	
 	$('body, html').animate({
@@ -300,7 +319,7 @@ function showWin(let) {
 	//player is winning letter
 	if (player.letter == let) {
 		
-		$("#result").html("YOU WON!<br>CONGRATULATIONS! :D");
+		$("#result").html("YOU WON!<br>CONGRATULATIONS! :)");
 		ShowScoreboard();
 
 		if (game.diff == 'easy') 		player.easyWins++;
@@ -324,10 +343,12 @@ function showWin(let) {
 
 //function to update the scoreboard after every game finishes
 function updateScoreboard() {
-	$("#scoreList").html('Easy wins: ' + player.easyWins + '<br>Hard wins: ' + player.hardWins + ' <br>Games played: ' + player.gamesPlayed);
+	var winPercent = Math.round(((player.easyWins + player.hardWins) / player.gamesPlayed) * 100);
+	$("#scoreList").html('Easy wins: ' + player.easyWins + '<br>Hard wins: ' + player.hardWins + ' <br><hr>Games played: ' + player.gamesPlayed + " (" + winPercent + "%)");
 }
 
 window.onload = function() {
+
 	newGame();
 	$("#date").html(new Date().getFullYear());
 };
@@ -336,3 +357,18 @@ window.onload = function() {
 function ShowScoreboard() {
 	$("#scoreboard").show();
 }
+
+//custom function, used with animate.css to quickly add and then remove animation classes (once animation is finished)
+//found here: https://github.com/daneden/animate.css
+$.fn.extend({
+	animateCss: function(animationName, callback) {
+		var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+        this.addClass('animated ' + animationName).one(animationEnd, function() {
+            $(this).removeClass('animated ' + animationName);
+            if (callback) {
+              callback();
+            }
+        });
+        return this;
+	}
+});
