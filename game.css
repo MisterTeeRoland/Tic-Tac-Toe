@@ -1,11 +1,9 @@
 /*
 	game.css
 	Tyler Roland
-	Modified 6/25/17
+	Modified 11/21/17
 	Tic Tac Toe style sheet
 */
-
-
 
 /* -- Imported fonts -- */
 
@@ -14,26 +12,25 @@
 	src: url(fonts/VarelaRound.ttf);
 }
 
-
-
 /* -- General styles -- */
 
 body {
+	background: #f8f8f8;
 	color: #444;
 	font-family: VarelaRound, sans-serif;
 	margin: 0 auto -1px;
 	width: 100%; 
 }
 
-#jumbotron {
+header {
 	background-color: #4070b8;
-	color: white; 
-	padding: 50px 0; 
-	text-align: center;
+	color: white;
+	padding: 10px;
+	text-align: left;
 }
 
-.jumbotron {
-	margin-bottom: 0;
+header h1 {
+	font-size: 30px;
 }
 
 
@@ -54,6 +51,15 @@ h4 {
 	font-size: 2em; 
 }
 
+hr {
+	margin: 5px 0;
+}
+
+footer {
+	padding: 10px;
+	text-align: center;
+	width: 100%;
+}
 
 #gamespace {
 	margin: 0;
@@ -61,11 +67,11 @@ h4 {
 }
 
 
-#diff, #play2, #gameboard {
+#diff, #play, #gameboard {
 	display: none;
 }
 
-#gameboard, #play2 {
+#gameboard, #play {
 	margin: auto; 
 	text-align: center;
 }
@@ -97,22 +103,6 @@ td img {
 	width: 80px;
 }
 
-tr:first-child td:first-child {
-	border-radius: 10px 0 0 0;
-}
-
-tr:first-child td:last-child {
-	border-radius: 0 10px 0 0;
-}
-
-tr:last-child td:first-child {
-	border-radius: 0 0 0 10px;
-}
-
-tr:last-child td:last-child {
-	border-radius: 0 0 10px 0;
-}
-
 .even {
 	background-color: #494949;
 }
@@ -125,7 +115,6 @@ tr:last-child td:last-child {
 button {
 	background-color: #fff;
 	border:0;  
-	border-radius: 5px;
 	box-shadow: 2px 2px 2px #222; 
 	color: #222;
 	cursor: pointer;
@@ -141,12 +130,10 @@ button:hover {
 }
 
 
-
 /* -- Scoreboard -- */
 
 #scoreboard {
 	background-color: #4070b8; 
-	border-radius: 10px;
 	color: white;
 	font-size: 20px;
 	padding-top: 5px;
@@ -156,8 +143,7 @@ button:hover {
 
 #scoreList {
 	background-color: #222; 
-	border-radius: 0 0 10px 10px; 
-	padding: 5px;
+	padding: 10px;
 	text-align: left;
 }
 
@@ -168,22 +154,24 @@ button:hover {
 }
 
 
+/* -- Responsiveness -- */
 
-/* -- Footer -- */
+@media screen and (min-width: 900px) {
+	td, td img {
+		height: 120px;
+		width: 120px;
+	}
 
-.footer {
-	background-color: #ccc;
-	bottom: 0;
-	color: white;  
-	padding: 15px 0; 
-	position: fixed;
-	text-align: center; 
-	width: 100%;
+	#scoreboard {
+		width: 260px;
+	}
 }
 
-
-
-/* -- Responsiveness -- */
+@media screen and (min-width: 604px) {
+	div#scoreboard {
+		margin-top: 85px;
+	}
+}
 
 @media screen and (max-width: 1420px) {
 	#result {
@@ -191,6 +179,12 @@ button:hover {
 	}
 	
 	.game {
-		margin: 30px;
+		margin: 30px 30px 0;
+	}
+}
+
+@media screen and (max-width: 425px) {
+	#result {
+		font-size: 25px;
 	}
 }
