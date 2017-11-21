@@ -1,5 +1,5 @@
 # Tic-Tac-Toe
-*Very basic Tic-Tac-Toe JavaScript game I made for fun.* 
+*Very basic Tic-Tac-Toe game I made for fun using JavaScript, jQuery, and some CSS animations.* 
 
 Play it here: http://www.tyler-roland.com/TicTacToe
 
