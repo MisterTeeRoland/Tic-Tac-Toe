@@ -11,6 +11,7 @@
 		<script src='game.js'></script>
 
 		<link rel="stylesheet" href="../css/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/animate.css">
 		<link rel="stylesheet" type="text/css" href="game.css">
 
 
@@ -23,37 +24,38 @@
 	</head>
 
 	<body>
-		<div id='jumbotron' class='jumbotron'>
+		<header class='animated fadeInDown'>
 			<h1>Tic-Tac-Toe</h1>
-		</div>
+		</header>
 
 		<div id='gamespace'>
-			<h2 id='result'></h2>
+			<h2 id='result' class='animated jackInTheBox'></h2>
 
-			<div id='howtoplay' class='controls'>
+			<div id='howtoplay' class='controls animated flipInY'>
 				<h2>How To Play</h2><br>
 				<p>Select X or O.<br>Select difficulty.<br>Select squares.<br>Win.</p>
 			</div><!-- End howtoplay div -->
 
-			<div id='letter' class='controls'>
+			<div id='letter' class='controls animated flipInY'>
 				Your Character<br>
 				<button onclick='setLetter("x")'>X</button>
 				<button onclick='setLetter("o")'>O</button>
 			</div><!-- End letter div -->
 
-			<div id='diff' class='controls'>
+			<div id='diff' class='controls animated flipInY'>
 				Difficulty<br>
 				<button onclick='setDiff("easy")'>Easy</button>
 				<button onclick='setDiff("hard")'>Hard</button>
 			</div><!-- End diff div -->
 
-			<div id='play2'>
-				<button id='new' onclick='newGame()'>New Game</button>
-			</div><!-- End play2 div -->
+			<div id='play'>
+				<button onclick='newGame()'>New Game</button> <button onclick='changeSettings()'>Change Settings</button>
+			</div><!-- End play div -->
 
 			<div id='gameboard'>
 				<div id="game" class='game controls'>
 					<table id="board">
+						<caption></caption>
 						<tr>
 							<td id="0" class="click even" onclick="addImage(0)"></td>
 							<td id="1" class="click odd" onclick="addImage(1)"></td>
@@ -72,15 +74,15 @@
 					</table>
 				</div><!-- End game div -->
 
-				<div id='scoreboard' class='game controls'>
+				<div id='scoreboard' class='game controls animated zoomIn'>
 					SCOREBOARD<br>
 					<div id='scoreList'></div>
 				</div><!-- End scoreboard div -->
 			</div><!-- End gameboard div -->
 		</div><!-- End gamespace div -->
 
-		<div class='footer'>
-			<div class='text-muted'>&copy; <span id='date'></span> by Tyler J Roland, LLC. All rights reserved.</div>
-		</div><!-- End footer -->
+		<footer>
+			<div>&copy; <span id='date'></span> by Tyler J Roland, LLC.<br>All rights reserved.</div>
+		</footer><!-- End footer -->
 	</body>
 </html>
