@@ -74,6 +74,7 @@ footer {
 #letter, #diff {
 	display: inline-block;
 	margin: 20px;
+	font-weight: 600;
 }
 
 .game {
@@ -116,11 +117,12 @@ button {
 	box-shadow: 2px 2px 2px #666; 
 	color: #fff;
 	cursor: pointer;
-	font-family: VarelaRound, sans-serif;
+	font-family: 'Lato', sans-serif;
 	margin: 5px;   
 	min-height: 30px; 
 	min-width: 50px;  
 	padding: 5px 10px;
+	letter-spacing: .05rem;
 }
 
 button.active {
