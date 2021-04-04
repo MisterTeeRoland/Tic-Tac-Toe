@@ -5,33 +5,18 @@
 	Tic Tac Toe style sheet
 */
 
-/* -- Imported fonts -- */
-
-@font-face {
-	font-family: VarelaRound;
-	src: url(fonts/VarelaRound.ttf);
-}
-
 /* -- General styles -- */
 
 body {
 	background: #f8f8f8;
 	color: #444;
-	font-family: VarelaRound, sans-serif;
-	margin: 0 auto -1px;
-	width: 100%; 
+	font-family: 'Lato', sans-serif;
 }
 
-header {
-	background-color: #4070b8;
-	color: white;
-	padding: 10px;
-	text-align: left;
+.hide {
+	display: none !important;
 }
 
-header h1 {
-	font-size: 30px;
-}
 
 
 h1, h2, h4 {
@@ -40,11 +25,16 @@ h1, h2, h4 {
 }
 
 h1 {
-	font-size: 5em;
+	font-size: 3rem;
+	margin-top: 20px;
+	color: #40b8a2;
+	font-weight: 700;
 }
 
 h2 {
-	font-size: 3em;
+	font-size: 1.7rem;
+	font-weight: 700;
+	margin-bottom: 10px;
 }
 
 h4 {
@@ -63,22 +53,27 @@ footer {
 
 #gamespace {
 	margin: 0;
-	padding: 20px 0 50px; 
+	padding: 20px 0; 
 }
 
-
-#diff, #play, #gameboard {
-	display: none;
-}
 
 #gameboard, #play {
-	margin: auto; 
+	margin: 20px auto; 
 	text-align: center;
+}
+
+#game {
+	position: relative;
 }
 
 .controls {
 	margin: 40px auto;
 	text-align: center;
+}
+
+#letter, #diff {
+	display: inline-block;
+	margin: 20px;
 }
 
 .game {
@@ -99,77 +94,95 @@ td {
 }
 
 td img {
-	height: 80px;
-	width: 80px;
+	height: 75px;
+	width: 75px;
 }
 
-.even {
-	background-color: #494949;
-}
-
-.odd {
+tr:nth-child(odd) td:nth-child(odd),
+tr:nth-child(even) td:nth-child(even) {
 	background-color: black;
+}
+
+tr:nth-child(odd) td:nth-child(even),
+tr:nth-child(even) td:nth-child(odd) {
+	background-color: #494949;
 }
 
 
 button {
-	background-color: #fff;
+	background-color: #40b8a2;
 	border:0;  
-	box-shadow: 2px 2px 2px #222; 
-	color: #222;
+	border-radius: 4px;
+	box-shadow: 2px 2px 2px #666; 
+	color: #fff;
 	cursor: pointer;
 	font-family: VarelaRound, sans-serif;
-	margin-top: 5px;   
+	margin: 5px;   
 	min-height: 30px; 
 	min-width: 50px;  
 	padding: 5px 10px;
 }
 
+button.active {
+	background-color: #3d6a62;
+}
+
 button:hover {
-	background-color: #ccc;
+	background-color: #3d6a62;
+}
+
+#howtoplay {
+	margin: 20px auto;
 }
 
 
 /* -- Scoreboard -- */
 
 #scoreboard {
-	background-color: #4070b8; 
+	background-color: #4070b8f3; 
 	color: white;
 	font-size: 20px;
 	padding-top: 5px;
 	text-align: center;
 	width: 240px;
+	height: 240px;
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	overflow: hidden;
 }
 
 #scoreList {
-	background-color: #222; 
+	background-color: rgba(0,0,0,0.7); 
 	padding: 10px;
 	text-align: left;
+	height: 100%;
 }
 
 #result { 
-	font-size: 45px; 
-	padding: 20px 0;
+	font-size: 30px; 
+	padding: 10px 0;
 	text-align: center;
+	color: white;
 }
 
 
 /* -- Responsiveness -- */
 
 @media screen and (min-width: 900px) {
-	td, td img {
+	td {
 		height: 120px;
 		width: 120px;
 	}
+	td img {
+		height: 115px;
+		width: 115px;
+	}
 
 	#scoreboard {
-		width: 260px;
-	}
-}
-
-@media screen and (min-width: 604px) {
-	div#scoreboard {
-		margin-top: 85px;
+		width: 360px;
+		height: 360px;
 	}
 }
 
